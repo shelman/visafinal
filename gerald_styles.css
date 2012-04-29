@@ -19,3 +19,36 @@ body {
 	height: 700px;	
 	z-index: 10;
 }
+
+#textPanel {
+	width: 680px;
+	height: 100px;
+	position: absolute;
+	top: 800px;
+	background-color: white;	
+	padding: 10px;
+	font-size: 20px;
+}
+
+.actionButton {
+	position: absolute;
+	top: 735;
+	height: 40px;
+	width: 150px;
+	background-color: orange;
+	cursor: pointer;
+	text-align: center;
+	line-height: 40px;	
+}
+
+#ab1 {
+	left: 100px;	
+}
+
+#ab2 {
+	left: 290px;
+}
+
+#ab3 {
+	left: 470px;
+}

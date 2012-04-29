@@ -1,6 +1,8 @@
 var Gerald = {
 	
 	createWorld: function() {
+				
+		var self = this; 
 		
 		var GERALD_WIDTH = 80,
 			GERALD_HEIGHT = 100;
@@ -10,30 +12,23 @@ var Gerald = {
 		Crafty.background('rgb(127,127,127)');
 		
 		this.currObjects = [];
+		this.textPanel = $('#textPanel');	
+		this.ab1 = $('#ab1').hide();
+		this.ab2 = $('#ab2').hide();
+		this.ab3 = $('#ab3').hide();
 
 		// make gerald
 		var gerald = this.gerald = Crafty.e("Gerald, 2D, DOM, Color, Collision, Multiway")
 			.color('rgb(0,0,0)')
 			.attr({ x: 50, y: 480, w: GERALD_WIDTH, h: GERALD_HEIGHT, z: 10 })
 			.multiway(8, {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180});
-
-		gerald.onHit("GCollidable", function() {
-			var collidedObj = gerald.hit("GCollidable")[0].obj;
-			// hits left side
-			if (gerald.x < collidedObj.x - gerald.w + 10) {
-				gerald.x -= 10;	
-			}
-			// hits right side
-			if (gerald.x > collidedObj.x + collidedObj.w - 10) {
-				gerald.x += 10;
-			}
-			// hits top
-			if (gerald.y < collidedObj.y - gerald.h + 10) {
-				gerald.y -= 10;
-			}
-			// hits bottom 
-			if (gerald.y > collidedObj.y + collidedObj.h - 10) {
-				gerald.y += 10;
+		
+		gerald.bind('Moved', function(from) {
+			self.clearCollision();
+			var itemHitAsArr;
+			if ((itemHitAsArr = this.hit('GCollidable'))) {
+				this.attr({ x:from.x, y:from.y });	
+				self.triggerCollision(itemHitAsArr[0].obj);
 			}
 		});
 		
@@ -46,8 +41,7 @@ var Gerald = {
 			.attr({ x: 700, y: -20, w: 20, h: 740, z: 10 });
 		this.leftWall = Crafty.e("2D, DOM, Collision, GCollidable")
 			.attr({ x: -20, y: -20, w: 20, h: 740, z: 10 });
-		
-		var self = this;
+
 		gerald.onHit("Door", function() {
 			var collidedObj = gerald.hit("Door")[0].obj;
 			var transition = collidedObj.transition;
@@ -75,6 +69,8 @@ var Gerald = {
 					self.createDiningRoom(collidedObj.positionOpp);
 					break;	
 			}
+			
+			self.clearText();
 		});
 
 		this.createBedroom('start');
@@ -114,7 +110,7 @@ var Gerald = {
 		// make two doors
 		this.createDoors(['right', 'top'], ['bathroom', 'hallway']);
 			
-		
+		this.setText("Where am I?  This isn't my house... something feels wrong.  I should probably get out of here.");
 	},
 	
 	createBathroom: function(startPoint) {
@@ -280,6 +276,170 @@ var Gerald = {
 				break;
 		}
 		
+	},
+	
+	setText: function(textValue) {
+		this.textPanel.html(textValue);
+	},
+	
+	clearText: function() {
+		this.textPanel.html('');	
+	}, 
+	
+	triggerCollision: function(itemHit) {
+		switch (itemHit) {
+			case this.dresser:
+				this.triggerDresser();
+				break;	
+			case this.bed:
+				this.triggerBed();
+				break;
+			case this.tvStand:
+				this.triggerTvStand();
+				break;
+			case this.toilet:
+				this.triggerToilet();
+				break;
+			case this.sink:
+				this.triggerSink();
+				break;
+			case this.bathtub:
+				this.triggerBathtub();
+				break;
+			case this.fridge:
+				this.triggerFridge();
+				break;
+			case this.stove:
+				this.triggerStove();
+				break;
+			case this.ksink:
+				this.triggerKSink();
+				break;
+		}	
+	},
+	
+	clearCollision: function() {
+		this.ab1.hide();
+		this.ab2.hide();
+		this.ab3.hide();
+		this.clearText();	
+	},
+	
+	triggerDresser: function() {
+		var self = this;
+		this.ab1.html('Check drawers');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("There's nothing in any of the drawers... that's weird.");
+		});	
+	},
+	
+	triggerBed: function() {
+		var self = this;
+		this.ab1.html('Look under bed');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("It's too dark under the bed to see anything.");
+		});
+		
+		this.ab2.html('Look under sheets');
+		this.ab2.show();
+		this.ab2.on('click', function() {
+			self.setText("Nothing there.");
+		});
+		
+		this.ab3.html('Take a nap');
+		this.ab3.show();
+		this.ab3.on('click', function() {
+			self.setText("You should really just get out of here before whoever lives here gets back.");
+		});
+	},
+	
+	triggerTvStand: function() {
+		var self = this;
+		this.ab1.html('Turn on TV');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("There's nothing good on.");
+		});
+		
+		this.ab2.html('Check drawers');
+		this.ab2.show();
+		this.ab2.on('click', function() {
+			self.setText("Just a ton of TV Guides.  Nothing of interest.");
+		});
+	},
+	
+	triggerToilet: function() {
+		var self = this;
+		this.ab1.html('Use toilet');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("Eh, don't really need to.");
+		});
+	},
+	
+	triggerSink: function() {
+		var self = this;
+		this.ab1.html('Wash hands');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("The water won't turn on.");
+		});
+		
+		this.ab2.html('Look in mirror');
+		this.ab2.show();
+		this.ab2.on('click', function() {
+			self.setText("Stop checking yourself out, you have more important things to do.");
+		});
+	},
+	
+	triggerBathtub: function() {
+		var self = this;
+		this.ab1.html('Take a bath');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("Whoa!  That water's way too hot.");
+		});
+	},
+	
+	triggerFridge: function() {
+		var self = this;
+		this.ab1.html('Look in fridge');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("Just some cheese and batteries.  This person really needs to go shopping.");
+		});	
+	},
+	
+	triggerStove: function() {
+		var self = this;
+		this.ab1.html('Turn on oven');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("Why the hell do you want to do that?!");
+		});	
+		
+		this.ab2.html('Look in oven');
+		this.ab2.show();
+		this.ab2.on('click', function() {
+			self.setText("Who left a flashlight in here?  Won't turn on though.");
+		});	
+	},
+	
+	triggerKSink: function() {
+		var self = this;
+		this.ab1.html('Do dishes');
+		this.ab1.show();
+		this.ab1.on('click', function() {
+			self.setText("Whoa!  That water's freezing, way too cold to effectively scrub these dishes.");
+		});
+		
+		this.ab2.html('Inspect dishes');
+		this.ab2.show();
+		this.ab2.on('click', function() {
+			self.setText("Hmm... one of these plates is filthy, but it looks like something's written on it under the caked food.");
+		});
 	}
 };
 
