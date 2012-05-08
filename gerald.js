@@ -10,6 +10,8 @@ var Gerald = {
 		Crafty.init(700, 700);
 		Crafty.background('rgb(127,127,127)');
 		
+		
+		
 		this.currObjects = [];
 		this.textPanel = $('#textPanel');	
 		this.ab1 = $('#ab1').hide();
@@ -23,8 +25,9 @@ var Gerald = {
 		this.numItems = 0;
 
 		// make gerald
-		var gerald = this.gerald = Crafty.e("Gerald, 2D, DOM, Color, Collision, Multiway")
-			.color('rgb(0,0,0)')
+		var gerald = this.gerald = Crafty.e("Gerald, 2D, DOM, Color, Collision, Multiway, Image")
+			//.color('rgb(0,0,0)')
+			.image('gerald.png')
 			.multiway(8, {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180});
 		
 		gerald.movedFunc = function(from) {
@@ -161,17 +164,20 @@ var Gerald = {
 		
 		this.positionGerald(startPoint);
 		
+		Crafty.background("url('hallway.jpg')");
+
 		// sunflower painting
 		var hallSfPainting = this.hallSfPainting = Crafty.e("hallSfPainting, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 550, y: 300, w: 140, h: 100, z: 5 });
+			.attr({ x: 500, y: 250, w: 170, h: 200, z: 5 });
 		this.currObjects.push(hallSfPainting);
 		
-		// scream painting
-		var screamPainting = this.screamPainting = Crafty.e("screamPainting, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 10, y: 300, w: 140, h: 100, z: 5 });
-		this.currObjects.push(screamPainting);
+		// extra blockers
+		this.currObjects.push(Crafty.e("2D, DOM, Color, Collision, GCollidable")
+			.attr({ x: 10, y: 10, w: 190, h: 700, z: 5 }));	
+		this.currObjects.push(Crafty.e("2D, DOM, Color, Collision, GCollidable")
+			.attr({ x: 500, y: 0, w: 160, h: 300, z: 5 }));
+		this.currObjects.push(Crafty.e("2D, DOM, Color, Collision, GCollidable")
+			.attr({ x: 500, y: 500, w: 160, h: 300, z: 5 }));
 		
 		// make the doors
 		this.createDoors(['bottom', 'top'], ['bedroom', 'kitchen']);
@@ -186,25 +192,21 @@ var Gerald = {
 	
 		// fridge
 		var fridge = this.fridge = Crafty.e("Fridge, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 10, y: 500, w: 190, h: 190, z: 5 });
+			.attr({ x: 10, y: 480, w: 250, h: 230, z: 5 });
 		this.currObjects.push(fridge);
 		
 		// stove
 		var stove = this.stove = Crafty.e("Stove, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 10, y: 10, w: 220, h: 190, z: 5 });
+			.attr({ x: 10, y: 10, w: 200, h: 190, z: 5 });
 		this.currObjects.push(stove);
 		
 		// counter
 		var counter = this.counter = Crafty.e("Counter, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
 			.attr({ x: 240, y: 10, w: 220, h: 190, z: 5 });
 		this.currObjects.push(counter);
 		
 		// kitchen sink
 		var ksink = this.ksink = Crafty.e("KSink, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
 			.attr({ x: 470, y: 10, w: 220, h: 190, z: 5 });
 		this.currObjects.push(ksink);
 		
@@ -216,17 +218,23 @@ var Gerald = {
 		
 		this.positionGerald(startPoint);
 		
+		Crafty.background("url('diningRoom.jpg')");
+
+		
 		// table
 		var table = this.table = Crafty.e("Table, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 250, y: 150, w: 200, h: 400, z: 5 });
+			.attr({ x: 200, y: 150, w: 200, h: 400, z: 5 });
 		this.currObjects.push(table);
 		
 		// sunflower painting
 		var drSfPainting = this.drSfPainting = Crafty.e("Tween, drSfPainting, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 530, y: 300, w: 160, h: 100, z: 5 });
+			.attr({ x: 540, y: 250, w: 160, h: 200, z: 5 });
 		this.currObjects.push(drSfPainting);
+		
+		this.currObjects.push(Crafty.e("2D, DOM, Color, Collision, GCollidable")
+			.attr({ x: 540, y: 0, w: 160, h: 230, z: 5 }));	
+		this.currObjects.push(Crafty.e("2D, DOM, Color, Collision, GCollidable")
+			.attr({ x: 540, y: 500, w: 160, h: 300, z: 5 }));
 		
 		// make the door
 		this.createDoors(['left'], ['kitchen']);
@@ -243,32 +251,32 @@ var Gerald = {
 			dPos = positions[i];
 			switch (dPos) {
 				case 'top':
-					this.topDoor = Crafty.e("2D, DOM, Color, Collision, Door")
-						.color(DOOR_COLOR)
+					this.topDoor = Crafty.e("2D, DOM, Color, Collision, Door, Image")
+						.image('doorTop.png')
 						.attr({ x: 275, y: 0, w: DOOR_LONG, h: DOOR_SHORT, z: 6 }); 
 					this.topDoor.transition = transitions[i];
 					this.topDoor.positionOpp = 'bottom';
 					this.currObjects.push(this.topDoor);
 					break;
 				case 'bottom':
-					this.bottomDoor = Crafty.e("2D, DOM, Color, Collision, Door")
-						.color(DOOR_COLOR)
+					this.bottomDoor = Crafty.e("2D, DOM, Color, Collision, Door, Image")
+						.image('doorBottom.png')
 						.attr({ x: 275, y: 680, w: DOOR_LONG, h: DOOR_SHORT, z: 6 }); 
 					this.bottomDoor.transition = transitions[i];
 					this.bottomDoor.positionOpp = 'top';
 					this.currObjects.push(this.bottomDoor);
 					break;
 				case 'left':
-					this.leftDoor = Crafty.e("2D, DOM, Color, Collision, Door")
-						.color(DOOR_COLOR)
+					this.leftDoor = Crafty.e("2D, DOM, Color, Collision, Door, Image")
+						.image('doorLeft.png')
 						.attr({ x: 0, y: 275, w: DOOR_SHORT, h: DOOR_LONG, z: 6 }); 
 					this.leftDoor.transition = transitions[i];
 					this.leftDoor.positionOpp = 'right';
 					this.currObjects.push(this.leftDoor);
 					break;
 				case 'right':
-					this.rightDoor = Crafty.e("2D, DOM, Color, Collision, Door")
-						.color(DOOR_COLOR)
+					this.rightDoor = Crafty.e("2D, DOM, Color, Collision, Door, Image")
+						.image('doorRight.png')
 						.attr({ x: 680, y: 275, w: DOOR_SHORT, h: DOOR_LONG, z: 6 })
 					this.rightDoor.transition = transitions[i];
 					this.rightDoor.positionOpp = 'left';
@@ -369,11 +377,11 @@ var Gerald = {
 		if (this.hasItem('flashlightOn')) {
 			this.ab1.on('click', function() {
 				if (self.hasItem('key')) {
-					if (self.hasItem('woodCarving')) {
+					if (self.hasItem('woodcarving')) {
 						self.setText("Nothing left in here");
 					} else {
 						self.setText("The key fit the chest under the bed perfectly... all that's inside is some sort of wooden carving.");
-						self.getItem('woodCarving');
+						self.getItem('woodcarving');
 					}
 				} else {
 					self.setText("Hey, there's a locked chest deep under the bed.  Never would have seen that without the flashlight.");	
@@ -452,6 +460,7 @@ var Gerald = {
 				self.setText("That did the trick!  Now that the plate's clean, it looks like it has some sort of series of numbers inscribed on it...");
 				if (self.items.indexOf('cleanDish') == -1) {
 					self.items[self.items.indexOf('dirtyDish')] = 'cleanDish';
+					self['item' + (self.items.indexOf('cleanDish') + 1)].css('background-image', "url('cleanDish.jpg')");
 				}
 			});
 		}
@@ -465,6 +474,7 @@ var Gerald = {
 			this.ab1.on('click', function() {
 				self.setText("Good thing there were batteries in the fridge.  They fit the flashlight perfectly.");
 				self.items[self.items.indexOf('flashlight')] = 'flashlightOn';
+				self['item' + (self.items.indexOf('flashlightOn') + 1)].css('background-image', "url('flashlightOn.jpg')");
 			});	
 		} else if (this.items.indexOf('flashlightOn') != -1) {
 			this.ab1.on('click', function() {
@@ -526,10 +536,10 @@ var Gerald = {
 		this.ab1.html('Sit down');
 		this.ab1.show();
 		this.ab1.on('click', function() {
-			self.setText("No time to rest.  But wait... there's a weird spiral indentation in the table.");
+			self.setText("No time to rest.  But wait... there's a weird indentation in the table.");
 		});
 		
-		if (this.hasItem('woodCarving') && !this.canExit) {
+		if (this.hasItem('woodcarving') && !this.canExit) {
 			this.ab2.html('Insert Carving');
 			this.ab2.show();
 			this.ab2.on('click', function() {
@@ -539,7 +549,23 @@ var Gerald = {
 					setTimeout(function() {
 						self.drSfPainting.destroy();
 					}, 1000);
-					self.createDoors(['right'], ['end']);
+					
+					var exit = Crafty.e("Tween, 2D, DOM, Color, Collision, Image, Exit")
+						.image('exit.png')
+						.attr({ x: 540, y: 200, w: 210, h: 200, z: 5, alpha: 0.0 });
+					exit.tween({ alpha: 1.0,  }, 100);
+					self.currObjects.push(exit);
+					
+					self.gerald.onHit("Exit", function() {
+						for (var i = 0, iMax = self.currObjects.length; i < iMax; i += 1) {
+							var worldObj = self.currObjects[i];
+							worldObj.destroy();	
+							self.currObjects.slice(i, 1);
+						}
+						self.createBedroom('start');
+					});
+					
+					self.done = true;
 				}
 			});
 
@@ -557,7 +583,7 @@ var Gerald = {
 		this.ab2.html('Poke painting');
 		this.ab2.show();
 		this.ab2.on('click', function() {
-			self.setText("Holy shit, there's a safe behind here.");
+			self.setText("Wow, there's a safe behind here.");
 			if (self.hasItem('cleanDish') && !self.hasItem('key')) {
 				self.setText("The combination from the plate worked on the safe behind the painting... there's a key inside.  Cool!");
 				self.getItem('key');
