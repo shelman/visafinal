@@ -1,11 +1,11 @@
 body {
-	background-color: red;	
+	background-color: light gray;	
 }
 
 #mainWrapper {
 	width: 700px;
 	height: 1000px;
-	background-color: blue;
+	background-color: gray;
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;	
@@ -35,7 +35,7 @@ body {
 	top: 735;
 	height: 40px;
 	width: 150px;
-	background-color: orange;
+	background-color: white;
 	cursor: pointer;
 	text-align: center;
 	line-height: 40px;	
@@ -55,20 +55,23 @@ body {
 
 .itemBox {
 	position: absolute;
-	top: 930px;
+	left: 740px;
 	width: 80px;
 	height: 80px;	
-	background-color: green;
+}
+
+#item1 {
+	top: 10px;
 }
 
 #item2 {
-	left: 100px;	
+	top: 110px;	
 }
 
 #item3 {
-	left: 190px;	
+	top: 210px;	
 }
 
 #item4 {
-	left: 280px;	
+	top: 310px;	
 }

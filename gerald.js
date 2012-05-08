@@ -90,11 +90,12 @@ var Gerald = {
 	createBedroom: function(startPoint) {
 		
 		this.positionGerald(startPoint);
+		
+		Crafty.background("url('bedroom.jpg')");
 				
 		// bed
 		var bed = this.bed = Crafty.e("Bed, 2D, DOM, Color, Collision")
-			.color('rgb(100,100,100)')
-			.attr({ x: 30, y: 350, w: 250, h: 300, z: 5 });
+			.attr({ x: 30, y: 380, w: 210, h: 260, z: 5 });
 		this.currObjects.push(bed);
 			
 		if (startPoint == 'start') {
@@ -107,14 +108,12 @@ var Gerald = {
 			
 		// tv stand
 		var tvStand = this.tvStand = Crafty.e("TVStand, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 30, y: 30, w: 200, h: 100, z: 5 });
+			.attr({ x: 30, y: 30, w: 210, h: 140, z: 5 });
 		this.currObjects.push(tvStand);
 
 		// dresser
 		var dresser = this.dresser = Crafty.e("Dresser, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 530, y: 450, w: 130, h: 200, z: 5 });
+			.attr({ x: 480, y: 420, w: 140, h: 220, z: 5 });
 		this.currObjects.push(dresser);
 			
 		// make two doors
@@ -137,22 +136,21 @@ var Gerald = {
 		
 		this.positionGerald(startPoint);
 		
+		Crafty.background("url('bathroom.jpg')");
+		
 		// toilet
 		var toilet = this.toilet = Crafty.e("Toilet, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 50, y: 30, w: 80, h: 110, z: 5 });
+			.attr({ x: 50, y: 30, w: 120, h: 140, z: 5 });
 		this.currObjects.push(toilet);
 			
 		// sink
 		var sink = this.sink = Crafty.e("Sink, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 540, y: 10, w: 150, h: 150, z: 5 });
+			.attr({ x: 480, y: 10, w: 190, h: 190, z: 5 });
 		this.currObjects.push(sink);
 
 		// bathtub
 		var bathtub = this.bathtub = Crafty.e("Bathtub, 2D, DOM, Color, Collision, GCollidable")
-			.color('rgb(100,100,100)')
-			.attr({ x: 510, y: 300, w: 180, h: 370, z: 5 });
+			.attr({ x: 420, y: 340, w: 180, h: 370, z: 5 });
 		this.currObjects.push(bathtub);
 		
 		// make the door
@@ -182,6 +180,9 @@ var Gerald = {
 	createKitchen: function(startPoint) {
 
 		this.positionGerald(startPoint);
+		
+		Crafty.background("url('kitchen.jpg')");
+
 	
 		// fridge
 		var fridge = this.fridge = Crafty.e("Fridge, 2D, DOM, Color, Collision, GCollidable")
@@ -567,7 +568,8 @@ var Gerald = {
 	getItem: function(item) {
 		this.items[this.numItems] = item;
 		this.numItems += 1;	
-		this['item' + this.numItems].show();
+		this['item' + this.numItems].show()
+		this['item' + this.numItems].css('background-image', "url('" + item + ".jpg')");
 	},
 	
 	hasItem: function(item) {
